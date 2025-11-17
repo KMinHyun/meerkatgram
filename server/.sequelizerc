@@ -1,0 +1,8 @@
+const path = require('path'); // <= CJS방식으로 import
+
+module.exports = {
+    config: path.resolve('databases', 'configs', 'sequelize-cli.config.js'), // <= resolve 메소드 : 상대 경로를 절대 경로로 가져오는 메소드
+    'models-path': path.resolve('app', 'models'),
+    'seeders-path': path.resolve('databases', 'seeders'),
+    'migrations-path': path.resolve('databases', 'migrations')
+}
