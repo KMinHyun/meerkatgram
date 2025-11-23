@@ -89,6 +89,11 @@ const Post = {
     const define = sequelize.define(modelName, attributes, options);
 
     return define;
+  },
+  associate: () => {
+    db.Post.belongsTo(db.User, { targetKey: 'id', foreignKey: 'userId', as: 'PostUser' });
+    db.Post.hasMany(db.Like, { sourceKey: 'id', foriegnKey: 'userId', as: 'PostLike' });
+    db.Post.hasMany(db.Comment, { sourceKey: 'id', foriegnKey: 'userId', as: 'PostLike' });
   }
 }
 
