@@ -6,7 +6,7 @@
 
 /**
  * 기본 응답 객체 생성
- * @param {import("../../configs/responseCode.config.type.js").ResposeCodeConfig} codeInfo <= 응답 코드 설정 객체
+ * @param {import("../../configs/responseCode.config.type.js").ResponseCodeConfig} codeInfo <= 응답 코드 설정 객체
  * @param {null|[]|{}} data
  * @returns {import("./createBaseResponse.util.type.js").createBaseResponse} <= 최종 응답 객체
  */

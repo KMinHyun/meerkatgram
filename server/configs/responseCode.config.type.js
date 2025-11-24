@@ -6,7 +6,7 @@
 
 /**
  * 응답 코드 설정 객체 타입 (`configs/responseCode.config.js` 내에 정의된 상수만 사용)
- * @typedef {Object} ResposeCodeConfig <= 별칭 
+ * @typedef {Object} ResponseCodeConfig <= 별칭 
  * @property {string} code <= 응답 코드
  * @property {string} msg <= 메시지
  * @property {string} info <= 응답 상세
