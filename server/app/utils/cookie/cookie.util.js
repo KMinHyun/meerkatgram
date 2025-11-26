@@ -22,7 +22,7 @@ function setCookie(res, cookieName, cookieValue, ttl, httpOnlyFlg = true, secure
     cookieName,
     cookieValue,
     {
-      expires: dayjs().add(ttl, 'millisecond').toDate(),
+      expires: dayjs().add(ttl, 'second').toDate(),
       httpOnly: httpOnlyFlg,
       secure: secureFlg,
       sameSite: 'none' // 도메인을 검증할지 말지 / 값이 lax = 같은 도메인 외 일부 경우에만 접근 가능 / strict = 같은 도메인만 접근 가능
