@@ -10,9 +10,16 @@ import errorHandler from './app/errors/errorHandler.js';
 import swaggerui from 'swagger-ui-express';
 import SwaggerParser from 'swagger-parser';
 import path from 'path'; // <= 경로를 가져오는데 도움 주는 툴(특정 경로나 상대 경로를 절대 경로로 가져오는 등)
+import filesRouter from './routes/files.router.js';
 
 const app = express();
 app.use(express.json()); // JSON 요청에 대한 파싱 처리 미들웨어
+
+// -----------------
+// 정적 파일 제공 등록(HTML, CSS, 일부 JS 파일, 이미지들)
+// -----------------
+app.use(process.env.ACCESS_FILE_POST_IMAGE_PATH, express.static(process.env.FILE_POST_IMAGE_PATH));
+app.use(process.env.ACCESS_FILE_USER_PROFILE_PATH, express.static(process.env.FILE_USER_PROFILE_PATH));
 
 // ------------
 // Swagger 등록
@@ -26,6 +33,7 @@ app.use('/api-docs', swaggerui.serve, swaggerui.setup(swaggerDoc));
 // 라우터 정의
 // ----------
 app.use('/api/auth', authRouter);
+app.use('/api/files', filesRouter);
 
 // 에러 핸들러 등록 <= 제일 마지막에 실행되어야 함
 app.use(errorHandler);
