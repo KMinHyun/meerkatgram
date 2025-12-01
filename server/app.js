@@ -14,9 +14,11 @@ import filesRouter from './routes/files.router.js';
 import postsRouter from './routes/posts.router.js';
 import notFoundRouter from './routes/notFound.router.js';
 import pathUtil from './app/utils/path/path.util.js';
+import cookieParser from 'cookie-parser';
 
 const app = express();
 app.use(express.json()); // JSON 요청에 대한 파싱 처리 미들웨어
+app.use(cookieParser()); // 쿠키 파서
 
 // -----------------
 // 정적 파일 제공 등록(HTML, CSS, 일부 JS 파일, 이미지들)

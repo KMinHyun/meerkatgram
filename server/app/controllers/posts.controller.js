@@ -19,11 +19,18 @@ import { createBaseResponse } from "../utils/createBaseResponse.util.js";
  */
 async function index(req, res, next) {
   try {
-    const page = req.body?.page || 1;
+    const page = req.query?.page ? parseInt(req.query?.page) : 1; // 쿼리든 세그먼트는 기본적으로 문자열로 옴.
 
-    const result = await postsService.pagination(page);
+    const { count, rows } = await postsService.pagination(page);
+
+    const responseData = {
+      page: page,
+      limit: 6,
+      posts: result,
+      posts: rows,
+    }
     
-    return res.status(SUCCESS.status).send(createBaseResponse(SUCCESS, result));
+    return res.status(SUCCESS.status).send(createBaseResponse(SUCCESS, responseData));
   } catch(error) {
     return next(error);
   }

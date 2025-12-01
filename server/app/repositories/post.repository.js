@@ -13,8 +13,21 @@ const { sequelize, Post, Comment } = db;
  * @returns {Promise<Array<import("../models/Post.js").Post>>}
  */
 async function pagination(t = null, data) {
-  return await Post.findAll(
-    {
+  // return await Post.findAll(
+  //   {
+  //     order: [
+  //       ['createdAt', 'DESC'],
+  //       ['updatedAt', 'DESC'],
+  //       ['id', 'ASC'],
+  //     ],
+  //     limit: data.limit,
+  //     offset: data.offset,
+  //   },
+  //   {
+  //     transaction: t,
+  //   }
+  // );
+  return await Post.findAndCountAll({
       order: [
         ['createdAt', 'DESC'],
         ['updatedAt', 'DESC'],
@@ -22,11 +35,8 @@ async function pagination(t = null, data) {
       ],
       limit: data.limit,
       offset: data.offset,
-    },
-    {
       transaction: t,
-    }
-  );
+    });
 }
 
 /**

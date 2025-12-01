@@ -24,24 +24,24 @@ const router = createBrowserRouter([
         element: <Login />
       },
       {
+        path: '/registration',
+        element: <Registration />
+      },
+      {
+        path: '/users/:id',
+        element: <UserInfo />
+      },
+      {
         path: '/posts',
         element: <PostIndex />
       },
       {
-        path: '/posts/:id',
+        path: '/posts/show/:id', // path의 계층이 겹치므로 분리해주기 위해 기능을 넣음
         element: <PostShow />
       },
       {
         path: '/posts/create',
         element: <PostCreate />
-      },
-      {
-        path: '/users',
-        element: <UserInfo />
-      },
-      {
-        path: '/users/create',
-        element: <Registration />
       }
     ]
   }
