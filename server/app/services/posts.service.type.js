@@ -5,7 +5,7 @@
  */
 
 /**
- * 페잊 타입
+ * 페이지 타입
  * @typedef {number} Page
  */
 

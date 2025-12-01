@@ -40,6 +40,7 @@ async function show(id) {
  * @returns {Promise<import("../models/Post.js").Post>}
  */
 async function create(data) {
+  // return db.sequelize.transaction(async t => {return await postRepository.create(t, data);})
   return await postRepository.create(null, data);
 }
 
@@ -65,7 +66,7 @@ async function destroy({ userId, postId }) {
     // 좋아요 삭제
     await likeRepository.destroy(t, postId);
     
-    // 게시글 삭제
+    // 게시글 삭제 <= 부모 테이블이기 때문에 foreignKey가 걸려 있어서 가장 마지막에 삭제해야 함.
     await postRepository.destroy(t, postId);
   });
   
