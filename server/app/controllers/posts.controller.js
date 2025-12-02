@@ -26,7 +26,7 @@ async function index(req, res, next) {
     const responseData = {
       page: page,
       limit: 6,
-      posts: result,
+      count: count,
       posts: rows,
     }
     
