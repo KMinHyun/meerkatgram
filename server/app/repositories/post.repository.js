@@ -4,7 +4,7 @@
  * 251128 v1.0.0 김민현 초기 작성
  */
 import db from '../models/index.js';
-const { sequelize, Post, Comment } = db;
+const { sequelize, Post, Comment, User } = db;
 
 /**
  * 게시글 페이지네이션
@@ -52,11 +52,32 @@ async function findByPkWithComments(t = null, id) {
       include: [
         {
           model: Comment,
-          as: 'comments',
+          as: 'postComments', // <= Model에서 관계 정의할 때 썼던 alis
           where: {
             replyId: 0
           },
-          required: false, // Left Join 설정
+          required: false, // Left Join 설정 : 댓글이 있을 때나 없을 때나 게시글을 가져와야 하기 때문에 레프트 조인을 위함. default가 Inner Join.
+          include: [
+            {
+              attributes: ['nick', 'profile'],
+              model: User,
+              as: 'commentsUser', // <= comment 기준으로 user와 맺은 alias
+              required: true, // Inner Join 설정
+            },
+            {
+              model: Comment,
+              as: 'commentReplies',
+              required: false, // Left Join 설정
+              include: [
+                {
+                  attributes: ['nick', 'profile'],
+                  model: User,
+                  as: 'commentsUser',
+                  required: true, // Inner Join 설정
+                }
+              ]
+            }
+          ],
         }
       ],
       transaction: t
