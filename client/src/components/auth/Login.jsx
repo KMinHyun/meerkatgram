@@ -28,6 +28,11 @@ export default function Login() {
     }
   }
 
+  // 소셜 로그인 페이지로 이동 처리
+  function handleSocial(provider) {
+    window.location.replace(`/api/auth/social/${provider}`);
+  }
+
   // email 유효성 검사
   function validationAndSetEmail(e) {
     const val = e.target.value;
@@ -49,7 +54,7 @@ export default function Login() {
         <input type="password" className='input-big-border' onChange={e => { setPassword(e.target.value) }} placeholder='password' />
         <button type="submit" className="btn-big bg-gray">Log in</button>
         <div className="text-on-line">or</div>
-        <button type="button" className="btn-big bg-img-kakao"></button>
+        <button type="button" className="btn-big bg-img-kakao" onClick={() => {handleSocial('kakao')}}></button>
         <button type="button" className="btn-big bg-light">Sign up</button>
       </form>
     </>

@@ -5,9 +5,11 @@
  */
 import { REISSUE_ERROR, SUCCESS } from "../../configs/responseCode.config.js";
 import myError from "../errors/customs/my.error.js";
+import PROVIDER from "../middlewares/auth/configs/provider.enum.js";
 import authService from "../services/auth.service.js";
 import cookieUtil from "../utils/cookie/cookie.util.js";
 import { createBaseResponse } from "../utils/createBaseResponse.util.js";
+import socialKakaoUtil from "../utils/social/social.kakao.util.js";
 
 // ---------------------
 //        public
@@ -64,6 +66,61 @@ async function reissue(req, res, next) {
   }
 }
 
+/**
+ * 소셜 로그인 컨트롤러
+ * @param {import("express").Request} req - 리퀘스트 객체
+ * @param {import("express").Response} res - 리스폰스 객체
+ * @param {import("express").NextFunction} next - next 객체
+ * @returns
+ */
+async function social(req, res, next) {
+  try {
+    const provider = req.params.provider.toUpperCase(); // <= 유저가 보낸 세그먼트 파라미터 저장
+    let url = '';
+
+    // provider 검증
+    switch(provider) {
+      case PROVIDER.KAKAO:
+        url = socialKakaoUtil.getAuthorizeURL();
+        break;
+      // case PROVIDER.GOOGLE:
+      //   url = 'google';
+    }
+
+    return res.redirect(url); // 프론트로 응답 보낼 게 아니라 제공자에게 연결
+  } catch(error) {
+    next(error);
+  }
+}
+
+/**
+ * 소셜 로그인 콜백 컨트롤러
+ * @param {import("express").Request} req - 리퀘스트 객체
+ * @param {import("express").Response} res - 리스폰스 객체
+ * @param {import("express").NextFunction} next - next 객체
+ * @returns
+ */
+async function socialCallback(req, res, next) {
+  try {
+    const provider = req.params.provider.toUpperCase();
+    let refreshToken = null;
+    let code = null;
+
+    switch(provider) {
+      case PROVIDER.KAKAO:
+        code = req.query?.code;
+        refreshToken = await authService.socialKakao(code);
+        break;
+    }
+
+    // Cookie에 RefreshToken 설정
+    cookieUtil.setCookieRefreshToken(res, refreshToken);
+
+    return res.redirect(process.env.SOCIAL_CLIENT_CALLBACK_URL); // send가 아니라 redirect인 이유는 이미 서버가 끊겨서 로그인 완료하면서 우리 창을 띄우려면 새로 화면을 렌더링해야 하기 때문에 요청을 보내야 함
+  } catch(error) {
+    next(error);
+  }
+}
 
 // ---------------
 //     export
@@ -71,4 +128,6 @@ async function reissue(req, res, next) {
 export const authController = {
   login,
   reissue,
+  social,
+  socialCallback,
 };

@@ -3,7 +3,8 @@
  * @description 유저 정보 유효성 검사 필드
  * 251119 v1.0.0 김민현 초기 작성
  */
-import { body } from "express-validator";
+import { body, param } from "express-validator";
+import PROVIDER from "../../auth/configs/provider.enum.js";
 
 export const email = body('email')
   // express 내장 기능으로 간단하게 체크하기
@@ -47,3 +48,15 @@ export const password = body('password')
 //   email,
 //   password
 // }
+
+export const provider = param('provider')
+  .trim()
+  .notEmpty()
+  .withMessage('필수 항목입니다.')
+  .bail()
+  .custom(val => { // api/auth/social/'kakao or google' <= val
+    return PROVIDER[val.toUpperCase()] ? true : false;
+  })
+  .withMessage('허용하지 않는 값입니다.')
+;
+

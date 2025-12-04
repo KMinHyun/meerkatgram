@@ -37,7 +37,7 @@ export default function errorHandler(err, req, res, next) {
 
   // 개발 모드일 경우 콘솔로 에러 로그 출력(일일이 파일 찾아 확인하지 않고 터미널에서 손쉽게 확인하기 위함)
   if(process.env.APP_MODE === 'dev') {
-    console.log(err.stack); // stack = 에러의 상세 정보
+    console.log(`${err.name}: ${err.message}\n${err.stack}`); // stack = 에러의 상세 정보
   }
 
   return res.status(err.codeInfo.status).send(createBaseResponse(err.codeInfo));
