@@ -39,6 +39,29 @@ async function login(req, res, next) {
 }
 
 /**
+ * 로그아웃 컨트롤러 처리
+ * @param {import("express").Request} req - 리퀘스트 객체
+ * @param {import("express").Response} res - 리스폰스 객체
+ * @param {import("express").NextFunction} next - next 객체
+ * @returns
+ */
+async function logout(req, res, next) {
+  try {
+    const id = req.user.id; // <= user = 우리가 만든 authMiddleware에서 생성되는 객체
+
+    // 로그아웃 서비스 호출
+    await authService.logout(id);
+
+    // Cookie에 refreshToken 만료 처리
+    cookieUtil.clearCookieRefreshToken(res);
+
+    return res.status(SUCCESS.status).send(createBaseResponse(SUCCESS));
+  } catch(error) {
+    return next(error);
+  }
+}
+
+/**
  * 토큰 재발급 컨트롤러 처리
  * @param {import("express").Request} req - 리퀘스트 객체
  * @param {import("express").Response} res - 리스폰스 객체
@@ -87,7 +110,7 @@ async function social(req, res, next) {
       //   url = 'google';
     }
 
-    return res.redirect(url); // 프론트로 응답 보낼 게 아니라 제공자에게 연결
+    return res.redirect(url); // 프론트로 응답 보낼 게 아니라 제공자에게 연결. 정확하게는 프론트로 응답을 보내는데, 제공자에게 연결하라는 명령어를 보내는 것.
   } catch(error) {
     next(error);
   }
@@ -127,6 +150,7 @@ async function socialCallback(req, res, next) {
 // ---------------
 export const authController = {
   login,
+  logout,
   reissue,
   social,
   socialCallback,

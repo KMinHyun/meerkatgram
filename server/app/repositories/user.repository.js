@@ -47,9 +47,42 @@ async function create(t = null, data) {
   return await User.create(data, { transaction: t });
 }
 
+async function logout(t = null, id) {
+  // 특정 유저 리프래쉬토큰 null로 갱신
+  return await User.update(
+    {
+      refreshToken: null,
+    },
+    {
+      where: {
+        id: id // 앞 id는 컬럼, 뒤 id는 파라미터로 받은 id
+      },
+      transaction: t
+    }
+  );
+
+  // UPDATE users SET refresh_token = null updated_at = NOW() WHERE id = ?
+    // ┌>JS에서 쿼리 평문 작성법
+    // const query = 
+    //   ' UPDATE users '
+    //   + ' SET '
+    //   + ' refresh_token = null '
+    //   + ' updated_at = NOW() '
+    //   + ' WHERE '
+    //   +  ' id = ? '
+    //  ;
+
+    // db.sequelize.query({
+    //   query: 'UPDATE users SET refresh_token = null updated_at = NOW() WHERE id = ?',
+    //   values: [id]
+    // });
+
+}
+
 export default {
   findByEmail,
   save,
   findByPk,
   create,
+  logout,
 }

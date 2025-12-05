@@ -45,9 +45,12 @@ export default function Login() {
     // }
   }
 
+  function redirectRegistration() {
+    return navigate('/registration');
+  }
+
   return (
     <>
-    {email} {password}
       <form className="login-container" onSubmit={handleLogin}>
         {emailErr} 
         <input type="text" className={`input-big-border ${emailErr ? 'redBorder' : 'greenBorder'}`} onChange={ validationAndSetEmail } placeholder='email' />
@@ -55,7 +58,7 @@ export default function Login() {
         <button type="submit" className="btn-big bg-gray">Log in</button>
         <div className="text-on-line">or</div>
         <button type="button" className="btn-big bg-img-kakao" onClick={() => {handleSocial('kakao')}}></button>
-        <button type="button" className="btn-big bg-light">Sign up</button>
+        <button type="button" className="btn-big bg-light" onClick={redirectRegistration}>Sign up</button>
       </form>
     </>
   )

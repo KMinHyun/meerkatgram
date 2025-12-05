@@ -18,10 +18,6 @@ requestBody:
       schema:
         type: object
         properties:
-          title:
-            description: 게시글 제목
-            type: string
-            example: 게시글 제목11
           content:
             description: 게시글 내용
             type: string
@@ -56,10 +52,6 @@ responses:
                       description: PK
                       type: integer
                       example: 1
-                    title:
-                      description: 게시글 제목
-                      type: string
-                      example: 게시글 제목11
                     content:
                       description: 게시글 내용
                       type: string
