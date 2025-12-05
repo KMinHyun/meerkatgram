@@ -1,6 +1,6 @@
 import { useDispatch } from 'react-redux';
 import './Registration.css';
-import { registrationThunk, userProfileUploadThunk, userStoreThunk } from '../../store/thunks/userStoreThunk.js';
+import { userProfileUploadThunk, userStoreThunk } from '../../store/thunks/userStoreThunk.js';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
