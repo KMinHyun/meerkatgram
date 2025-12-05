@@ -11,7 +11,7 @@ export default function Registration() {
   const [password, setPassword] = useState('');
   const [passwordChk, setPasswordChk] = useState('');
   const [nick, setNick] = useState('');
-  const [file, setfile] = useState(null);
+  const [file, setFile] = useState(null);
   const [preview, setPreview] = useState('');
 
   // 파일 변경시 처리 함수
